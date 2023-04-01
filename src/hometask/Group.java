@@ -57,7 +57,8 @@ public class Group {
 	@Override
 	public String toString() {
 		int counter = 0;
-		Arrays.sort(students, Comparator.nullsLast(new SortByLastName().thenComparing(new SortByName())));
+		Arrays.sort(students,
+				Comparator.nullsLast(new SortStudentsByLastName().thenComparing(new SortStudentsByName())));
 		String result = "Група " + groupName + ":" + System.lineSeparator();
 		for (int i = 0; i < students.length; i++) {
 			if (students[i] == null) {
