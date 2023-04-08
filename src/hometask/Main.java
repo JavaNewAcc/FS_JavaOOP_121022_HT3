@@ -23,13 +23,13 @@ public class Main {
 			group1.addStudent(student2);
 			group1.addStudent(student3);
 			group1.addStudent(student4);
-			group1.addStudent(student5);
-			group1.addStudent(student6);
-			group1.addStudent(student7);
-			group1.addStudent(student8);
-			group1.addStudent(student9);
-			group1.addStudent(student10);
-			group1.addStudent(student11);
+//			group1.addStudent(student5);
+//			group1.addStudent(student6);
+//			group1.addStudent(student7);
+//			group1.addStudent(student8);
+//			group1.addStudent(student9);
+//			group1.addStudent(student10);
+//			group1.addStudent(student11);
 		} catch (GroupOverflowException e) {
 			e.printStackTrace();
 		}
@@ -49,11 +49,34 @@ public class Main {
 		}
 
 		System.out.println();
-		System.out.println(group1.removeStudentByID(222));
+		System.out.println("Результат роботи метода по видаленню студента: " + group1.removeStudentByID(222));
 		System.out.println();
 
 		try {
 			group1.addStudent(student11);
+		} catch (GroupOverflowException e) {
+			e.printStackTrace();
+		}
+		System.out.println(group1);
+
+		try {
+			InputStudentFromKeyboard inputNewStudent = new InputStudentFromKeyboard();
+			Student newStudent = inputNewStudent.inputStudentFromKeyboard();
+			try {
+				group1.addStudent(newStudent);
+			} catch (GroupOverflowException e) {
+				e.printStackTrace();
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		System.out.println(group1);
+
+		CSVStringConverter converter = new CSVStringConverter();
+		System.out.println(converter.toStringRepresentation(student1));
+
+		try {
+			group1.addStudent(converter.fromStringRepresentation("Янчурук,Іванчик,654,MALE,Java OOP"));
 		} catch (GroupOverflowException e) {
 			e.printStackTrace();
 		}
