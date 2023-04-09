@@ -1,5 +1,8 @@
 package hometask;
 
+import java.io.IOException;
+import java.io.File;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -64,6 +67,7 @@ public class Main {
 			Student newStudent = inputNewStudent.inputStudentFromKeyboard();
 			try {
 				group1.addStudent(newStudent);
+				newStudent.setGroupName(group1.getGroupName());
 			} catch (GroupOverflowException e) {
 				e.printStackTrace();
 			}
@@ -81,5 +85,25 @@ public class Main {
 			e.printStackTrace();
 		}
 		System.out.println(group1);
+
+		GroupFileStorage gfs = new GroupFileStorage();
+		try {
+			gfs.saveGroupToCSV(group1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		File file = new File("Java OOPs.csv");
+		System.out.println(gfs.loadGroupFromCSV(file));
+
+		File workFolder = new File(".");
+		String fileName = "Java OOP";
+
+		if (gfs.findFileByGroupName(fileName, workFolder) == null) {
+			System.out.println("Файл не знайдено");
+		} else {
+			System.out.println("Знайдено файл з назвою: " + gfs.findFileByGroupName(fileName, workFolder).getName());
+		}
+		;
 	}
 }
