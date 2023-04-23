@@ -2,6 +2,7 @@ package hometask;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Group {
 	private final String groupName;
@@ -72,5 +73,51 @@ public class Group {
 			result = "Група " + groupName + " ще не набрана";
 		}
 		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(students);
+		result = prime * result + Objects.hash(groupName);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Group other = (Group) obj;
+		return Objects.equals(groupName, other.groupName) && Arrays.equals(students, other.students);
+	}
+
+	public boolean searchRepeats() {
+		Arrays.sort(students,
+				Comparator.nullsLast(new SortStudentsByLastName().thenComparing(new SortStudentsByName())));
+		if (this.students[0] == null) {
+			System.out.println("В групі немає студентів");
+			return false;
+		}
+		for (int i = 0; i < this.students.length - 2; i++) {
+			if (this.students[i] == null) {
+				continue;
+			} else {
+				for (int j = this.students.length - 1; j > i; j--) {
+					if (this.students[j] == null) {
+						continue;
+					} else {
+						if (this.students[i].equals(this.students[j])) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

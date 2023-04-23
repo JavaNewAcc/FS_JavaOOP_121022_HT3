@@ -20,12 +20,14 @@ public class Main {
 		Student student9 = new Student("Кирило", "Капустін", Gender.MALE, 999, "Java OOP");
 		Student student10 = new Student("Марина", "Макарова", Gender.FEMALE, 101010, "Java OOP");
 		Student student11 = new Student("Оксана", "Кринична", Gender.FEMALE, 111111, "Java OOP");
+		Student student12 = new Student("Іван", "Янчук", Gender.MALE, 1112, "Java OOP");
 
 		try {
 			group1.addStudent(student1);
+//			group1.addStudent(student1);
 			group1.addStudent(student2);
-			group1.addStudent(student3);
-			group1.addStudent(student4);
+//			group1.addStudent(student3);
+//			group1.addStudent(student4);
 //			group1.addStudent(student5);
 //			group1.addStudent(student6);
 //			group1.addStudent(student7);
@@ -33,77 +35,84 @@ public class Main {
 //			group1.addStudent(student9);
 //			group1.addStudent(student10);
 //			group1.addStudent(student11);
+			group1.addStudent(student12);
 		} catch (GroupOverflowException e) {
 			e.printStackTrace();
 		}
+//
+//		System.out.println(group1);
+//
+//		try {
+//			System.out.println(group1.searchStudentByLastName("Іванов"));
+//		} catch (StudentNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//		try {
+//			System.out.println(group1.searchStudentByLastName("Іваненко"));
+//		} catch (StudentNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//		System.out.println();
+//		System.out.println("Результат роботи метода по видаленню студента: " + group1.removeStudentByID(222));
+//		System.out.println();
+//
+//		try {
+//			group1.addStudent(student11);
+//		} catch (GroupOverflowException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(group1);
+//
+//		try {
+//			InputStudentFromKeyboard inputNewStudent = new InputStudentFromKeyboard();
+//			Student newStudent = inputNewStudent.inputStudentFromKeyboard();
+//			try {
+//				group1.addStudent(newStudent);
+//				newStudent.setGroupName(group1.getGroupName());
+//			} catch (GroupOverflowException e) {
+//				e.printStackTrace();
+//			}
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(group1);
+//
+//		CSVStringConverter converter = new CSVStringConverter();
+//		System.out.println(converter.toStringRepresentation(student1));
+//
+//		try {
+//			group1.addStudent(converter.fromStringRepresentation("Янчурук,Іванчик,654,MALE,Java OOP"));
+//		} catch (GroupOverflowException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(group1);
+//
+//		GroupFileStorage gfs = new GroupFileStorage();
+//		try {
+//			gfs.saveGroupToCSV(group1);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		File file = new File("Java OOPs.csv");
+//		System.out.println(gfs.loadGroupFromCSV(file));
+//
+//		File workFolder = new File(".");
+//		String fileName = "Java OOP";
+//
+//		if (gfs.findFileByGroupName(fileName, workFolder) == null) {
+//			System.out.println("Файл не знайдено");
+//		} else {
+//			System.out.println("Знайдено файл з назвою: " + gfs.findFileByGroupName(fileName, workFolder).getName());
+//		}
+//		System.out.println(group1.toString());
 
-		System.out.println(group1);
-
-		try {
-			System.out.println(group1.searchStudentByLastName("Іванов"));
-		} catch (StudentNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			System.out.println(group1.searchStudentByLastName("Іваненко"));
-		} catch (StudentNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println();
-		System.out.println("Результат роботи метода по видаленню студента: " + group1.removeStudentByID(222));
-		System.out.println();
-
-		try {
-			group1.addStudent(student11);
-		} catch (GroupOverflowException e) {
-			e.printStackTrace();
-		}
-		System.out.println(group1);
-
-		try {
-			InputStudentFromKeyboard inputNewStudent = new InputStudentFromKeyboard();
-			Student newStudent = inputNewStudent.inputStudentFromKeyboard();
-			try {
-				group1.addStudent(newStudent);
-				newStudent.setGroupName(group1.getGroupName());
-			} catch (GroupOverflowException e) {
-				e.printStackTrace();
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		System.out.println(group1);
-
-		CSVStringConverter converter = new CSVStringConverter();
-		System.out.println(converter.toStringRepresentation(student1));
-
-		try {
-			group1.addStudent(converter.fromStringRepresentation("Янчурук,Іванчик,654,MALE,Java OOP"));
-		} catch (GroupOverflowException e) {
-			e.printStackTrace();
-		}
-		System.out.println(group1);
-
-		GroupFileStorage gfs = new GroupFileStorage();
-		try {
-			gfs.saveGroupToCSV(group1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		File file = new File("Java OOPs.csv");
-		System.out.println(gfs.loadGroupFromCSV(file));
-
-		File workFolder = new File(".");
-		String fileName = "Java OOP";
-
-		if (gfs.findFileByGroupName(fileName, workFolder) == null) {
-			System.out.println("Файл не знайдено");
+		if (group1.searchRepeats()) {
+			System.out.println("В групі " + group1.getGroupName() + " всі студенти уникальні");
 		} else {
-			System.out.println("Знайдено файл з назвою: " + gfs.findFileByGroupName(fileName, workFolder).getName());
+			System.out.println("В групі " + group1.getGroupName() + " є повтори.");
 		}
-		;
 	}
 }
