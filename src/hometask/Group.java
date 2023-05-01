@@ -1,55 +1,52 @@
 package hometask;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Group {
 	private final String groupName;
-	private final Student[] students;
+	private final List<Student> students;
 
 	public Group(String groupName) {
 		super();
 		this.groupName = groupName;
-		students = new Student[10];
+		students = new ArrayList<>();
 	}
 
 	public String getGroupName() {
 		return groupName;
 	}
 
-	public Student[] getStudents() {
+	public List<Student> getStudents() {
 		return students;
 	}
 
 	public void addStudent(Student student) throws GroupOverflowException {
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] == null) {
-				students[i] = student;
-				return;
-			}
+		if (students.size() >= 10) {
+			throw new GroupOverflowException("В групі " + groupName + " немає вільних місць.");
+		} else {
+			students.add(student);
 		}
-		throw new GroupOverflowException("В групі " + groupName + " немає вільних місць.");
 	}
 
 	public Student searchStudentByLastName(String lastName) throws StudentNotFoundException {
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] != null) {
-				if (students[i].getLastName().equals(lastName)) {
-					return students[i];
-				}
+		for (Student element : students) {
+			if (element.getLastName().equals(lastName)) {
+				return element;
 			}
 		}
 		throw new StudentNotFoundException("Студента з прізвищем " + lastName + " не знайденою");
 	}
 
 	public boolean removeStudentByID(int id) {
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] != null) {
-				if (students[i].getId() == id) {
-					students[i] = null;
-					return true;
-				}
+		for (Student element : students) {
+			if (element.getId() == id) {
+				students.remove(students.indexOf(element));
+				return true;
 			}
 		}
 		return false;
@@ -58,18 +55,14 @@ public class Group {
 	@Override
 	public String toString() {
 		int counter = 0;
-		Arrays.sort(students,
-				Comparator.nullsLast(new SortStudentsByLastName().thenComparing(new SortStudentsByName())));
 		String result = "Група " + groupName + ":" + System.lineSeparator();
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] == null) {
-				counter++;
-			} else {
-				result += students[i].getLastName() + " " + students[i].getName() + ", номер залікової книжки: "
-						+ students[i].getId() + ";" + System.lineSeparator();
-			}
+		Collections.sort(students, new SortStudentsByLastName().thenComparing(new SortStudentsByName()));
+
+		for (Student element : students) {
+			result = result + element.toString() + System.lineSeparator();
 		}
-		if (counter == students.length) {
+
+		if (students.size() == 0) {
 			result = "Група " + groupName + " ще не набрана";
 		}
 		return result;
@@ -77,11 +70,7 @@ public class Group {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(students);
-		result = prime * result + Objects.hash(groupName);
-		return result;
+		return Objects.hash(groupName, students);
 	}
 
 	@Override
@@ -93,30 +82,14 @@ public class Group {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		return Objects.equals(groupName, other.groupName) && Arrays.equals(students, other.students);
+		return Objects.equals(groupName, other.groupName) && Objects.equals(students, other.students);
 	}
 
 	public boolean searchRepeats() {
-		Arrays.sort(students,
-				Comparator.nullsLast(new SortStudentsByLastName().thenComparing(new SortStudentsByName())));
-		if (this.students[0] == null) {
-			System.out.println("В групі немає студентів");
+		Set<Student> set1 = new HashSet<>(students);
+
+		if (set1.size() < students.size()) {
 			return false;
-		}
-		for (int i = 0; i < this.students.length - 2; i++) {
-			if (this.students[i] == null) {
-				continue;
-			} else {
-				for (int j = this.students.length - 1; j > i; j--) {
-					if (this.students[j] == null) {
-						continue;
-					} else {
-						if (this.students[i].equals(this.students[j])) {
-							return false;
-						}
-					}
-				}
-			}
 		}
 		return true;
 	}

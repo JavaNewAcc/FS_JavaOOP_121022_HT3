@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GroupFileStorage {
 
@@ -15,16 +17,16 @@ public class GroupFileStorage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Student[] studentArr = gr.getStudents();
-		for (int i = 0; i < studentArr.length; i++) {
-			if (studentArr[i] != null) {
-				CSVStringConverter studentInfo = new CSVStringConverter();
-				try (FileWriter os = new FileWriter(exportGroup, true)) {
-					os.write(studentInfo.toStringRepresentation(studentArr[i]) + System.lineSeparator());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		List<Student> studentArr = gr.getStudents();
+		for (int i = 0; i < studentArr.size(); i++) {
+//			if (studentArr[i] != null) {
+			CSVStringConverter studentInfo = new CSVStringConverter();
+			try (FileWriter os = new FileWriter(exportGroup, true)) {
+				os.write(studentInfo.toStringRepresentation(studentArr.get(i)) + System.lineSeparator());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+//			}
 		}
 	}
 
